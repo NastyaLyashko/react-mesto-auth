@@ -1,0 +1,18 @@
+.header {
+    max-width: 880px;
+    margin: auto;
+    border-bottom: 1px solid #545454;
+}
+
+
+@media (max-width: 935px) {
+    .header {
+        max-width:  calc(100% - 38px);
+    }
+}
+
+@media (max-width: 460px) {
+    .header {
+        max-width: 100%;
+    }
+}

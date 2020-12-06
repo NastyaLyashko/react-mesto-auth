@@ -1,0 +1,5 @@
+.popup__container_question {
+    display: flex;
+    flex-direction: column;
+    line-height: 0;
+}

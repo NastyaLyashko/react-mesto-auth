@@ -1,0 +1,16 @@
+.profile__columns {
+    display: grid;
+    grid-template-columns: 1fr 25px;
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 17px;
+    align-self: center;
+    margin-right: auto;
+    margin-left: 0px;
+}
+
+@media (max-width: 460px) {
+    .profile__columns  {
+        margin: auto;
+        grid-column-gap: 7px;
+    }
+}
