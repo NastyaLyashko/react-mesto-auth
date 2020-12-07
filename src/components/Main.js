@@ -1,5 +1,5 @@
 import React from 'react';
-import {api} from './Api.js';
+import {api} from './api.js';
 import Card from './Card.js';
 
 function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
@@ -41,7 +41,7 @@ function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
             <section className="elements">
                 <ul className="elements__list">
                     {cards.map((card) => (
-                        <Card key={card.id} card={card} onCardClick={onCardClick}/>
+                        <Card key={card._id} card={card} onCardClick={onCardClick}/>
                     ))}
                 </ul>
             </section>
