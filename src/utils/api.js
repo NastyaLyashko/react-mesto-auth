@@ -79,14 +79,11 @@ class Api {
     }
 
     
-    patchUserAvatar(item) {
+    patchUserAvatar(userAvatar) {
         return fetch(`${this.baseUrl}/users/me/avatar `, {
             method: 'PATCH',
             headers: this.headers,
-            body: JSON.stringify({
-                avatar: item.avatar
-           })
-
+            body: JSON.stringify(userAvatar)
         })
         .then(res => {
             if (res.ok) {
@@ -145,6 +142,10 @@ class Api {
       
             return Promise.reject(`Ошибка: ${res.status}`);
         })
+    }
+
+    changeLikeCardStatus(idCard, isLiked) {
+        return !isLiked ? this.deleteLike(idCard) : this.putLike(idCard)
     }
 
 }
