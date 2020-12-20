@@ -11,6 +11,7 @@ export default function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
         onUpdateAvatar({
           avatar: avatarRef.current.value,
         });
+        avatarRef.current.value = ''
       } 
 
     return (
@@ -30,4 +31,4 @@ export default function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
             <span className="popup__error" id="img-input-error"></span>
         </PopupWithForm>
     )
-}
+} 

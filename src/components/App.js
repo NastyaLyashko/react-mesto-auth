@@ -13,22 +13,22 @@ import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
 function App() {
     
-    const [isEditProfilePopupOpen, changeIsEditProfilePopupOpen] = React.useState(false);
+    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
 
     function onEditProfile() {
-        changeIsEditProfilePopupOpen(true);
+        setIsEditProfilePopupOpen(true);
     }
 
-    const [isAddPlacePopupOpen, changeIsAddPlacePopupOpen] = React.useState(false);
+    const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
 
     function onAddPlace() {
-        changeIsAddPlacePopupOpen(true);
+        setIsAddPlacePopupOpen(true);
     }
 
-    const [isEditAvatarPopupOpen, changeIsEditAvatarPopupOpen] = React.useState(false);
+    const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
 
     function onEditAvatar() {
-        changeIsEditAvatarPopupOpen(true);
+        setIsEditAvatarPopupOpen(true);
     }
 
     const [selectedCard, setSelectedCard] = React.useState(null);
@@ -38,9 +38,9 @@ function App() {
     }
 
     function closeAllPopups() {
-        changeIsEditProfilePopupOpen(false)
-        changeIsAddPlacePopupOpen(false)
-        changeIsEditAvatarPopupOpen(false)
+        setIsEditProfilePopupOpen(false)
+        setIsAddPlacePopupOpen(false)
+        setIsEditAvatarPopupOpen(false)
         setSelectedCard(null)
     }
     
@@ -50,10 +50,10 @@ function App() {
         api.getUserData()
             .then((userData) => {
                 setCurrentUser(userData)
-        })
-        .catch(err => {
-            console.log(err)
-        })
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }, [])
 
     function handleUpdateUser(data) {
@@ -84,27 +84,35 @@ function App() {
         api.getInitialCards()
             .then((cardData) => {
                 setCards(cardData)
-        })
-        .catch(err => {
-            console.log(err)
-        })
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }, [])
 
     function handleCardLike(card) {
         
         const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-        api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-          const newCards = cards.map((c) => c._id === card._id ? newCard : c);
-          setCards(newCards);
-        });
+        api.changeLikeCardStatus(card._id, !isLiked)
+            .then((newCard) => {
+                const newCards = cards.map((c) => c._id === card._id ? newCard : c);
+                setCards(newCards);
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     function handleCardDelete(card) {
-        api.deleteCard(card._id).then(() => {
-            const newCards = cards.filter((c) => c._id !== card._id);
-            setCards(newCards);
-          });
+        api.deleteCard(card._id)
+            .then(() => {
+                const newCards = cards.filter((c) => c._id !== card._id);
+                setCards(newCards);
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     function handleAddPlaceSubmit(data) {
