@@ -1,0 +1,6 @@
+.form {
+    display: flex;
+    max-width: 358px;
+    margin: auto;
+    position: relative;
+}
