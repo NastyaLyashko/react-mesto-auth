@@ -1,14 +1,12 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header.js';
 
-function Register({ onRegister }) {
+function Register({ onRegister, onInfoTooltip }) {
     const [data, setData] = React.useState({
         email: '',
         password: '',
     });
-
-    const history = useHistory();
 
     function handleChangeData(e) {
         const {name, value} = e.target
@@ -21,7 +19,6 @@ function Register({ onRegister }) {
     function handleSubmit(e) {
         e.preventDefault();
         onRegister(data)
-        .then(() => history.push('/sing-in'))
     }
 
     return (
@@ -54,8 +51,8 @@ function Register({ onRegister }) {
                             maxLength="200"/>
                     <span className="form__error" id="password-error"></span>
                     </label>
-                    <button type="submit" className="form__save-button">Зарегистрироваться</button>
-                    <p className="form__sing-in-text">Уже зарегистрированы? Войти</p>
+                    <button type="submit" className="form__save-button" onClick={onInfoTooltip}>Зарегистрироваться</button>
+                    <Link to="/sign-in" className="form__sing-in-text" >Уже зарегистрированы? Войти</Link> 
                 </form>
             </section>
         </ >

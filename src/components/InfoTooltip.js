@@ -1,12 +1,13 @@
 import login from "../images/login.svg";
+import loginErr from "../images/loginErr.svg";
 
-export default function InfoTooltip({ name, isOpen, onClose, text }) {
+export default function InfoTooltip({ isOpen, onClose, isRequestSuccessful }) {
     return (
-        <section className={`${isOpen ? "popup_opened" : ""} popup popup_${name}`}>
+        <section className={`${isOpen ? "popup_opened" : ""} popup`}>
             <div className="popup__container popup__container_login">
-            <button className="popup__close-button popup__close-button_photo" aria-label="Закрыть" onClick={onClose}></button>
-                <img className="popup__login-img" alt="succes" src={login}/>
-                <p className="popup__login-text">{text}</p>
+            <button className="popup__close-button popup__close-button_infotool" aria-label="Закрыть" onClick={onClose}></button>
+                <img className="popup__login-img" alt="info" src={`${isRequestSuccessful ? login : loginErr}`}/>
+                <p className="popup__login-text">{`${isRequestSuccessful ? "Вы успешно зарегестрированы" : "Что-то пошло не так. Попробуйте ещё раз"}`}</p>
             </div>
         </section>
     )

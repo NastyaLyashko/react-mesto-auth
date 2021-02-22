@@ -3,13 +3,13 @@ import Card from './Card.js';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 import Header from '../components/Header.js';
 
-function Main({ loginData, loggedIn, signOut, onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCardLike, onCardDelete}) {
+function Main({ loginData, loggedIn, onSignOut, onEditProfile, onAddPlace, onEditAvatar, onCardClick, cards, onCardLike, onCardDelete}) {
 
     const currentUser = React.useContext(CurrentUserContext);
 
     return (
         <>
-            <Header loggedIn={loggedIn} login={loginData} link="/sign-in" onClick={signOut} loginText={'Выйти'}/>
+            <Header loggedIn={loggedIn} login={loginData} link="/sign-in" onClick={onSignOut} loginText={'Выйти'}/>
             <main>
                 <section className="profile">
                     <div className="profile__avatar-containter">

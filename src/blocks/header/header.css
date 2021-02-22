@@ -13,8 +13,8 @@
     }
 }
 
-@media (max-width: 460px) {
+@media (max-width: 480px) {
     .header {
-        max-width: 100%;
+        max-width: calc(100% - 60px);
     }
 }

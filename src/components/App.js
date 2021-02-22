@@ -41,7 +41,16 @@ function App() {
     function onInfoTooltip() {
         setIsInfoTooltipOpen(true);
     }
-    
+
+    const [isRequestSuccessful, setRequestSuccessful] = useState(false);
+
+    function closeInfoTooltip() {
+        setIsInfoTooltipOpen(false);
+        if (isRequestSuccessful) {
+            history.push('/sing-in');
+        }
+    }
+
     const [selectedCard, setSelectedCard] = useState(null);
 
     function handleCardClick(card) {
@@ -52,7 +61,6 @@ function App() {
         setIsEditProfilePopupOpen(false)
         setIsAddPlacePopupOpen(false)
         setIsEditAvatarPopupOpen(false)
-        setIsInfoTooltipOpen(false)
         setSelectedCard(null)
     }
     
@@ -155,6 +163,9 @@ function App() {
                 if (!res || res.statusCode === 400) {
                     throw new Error('Что-то не так с регистрацией');
                 }
+                if (res.data) {
+                    setRequestSuccessful(true);
+                }
             })
             .catch(err => {
                 console.log(err)
@@ -165,13 +176,29 @@ function App() {
         const { email, password } = data;
         return authorize(email, password)
             .then((res) => {
+                if (!res || res.statusCode === 401) {
+                    setIsInfoTooltipOpen(true)
+                    throw new Error('Пользователь не зарегесрирован');
+                }
                 if (!res || res.statusCode === 400) {
-                    throw new Error('Что-то не так с регистрацией');
+                    setIsInfoTooltipOpen(true)
+                    throw new Error('Не передано одно из полей ');
                 }
                 if (res.token) {
                     setLoggedIn(true);
+                    setRequestSuccessful(true);
+                    history.push('/')
                     localStorage.setItem('jwt', res.token);
+                    getContent(res.token)
+                        .then((res) => {
+                            if (res){
+                            setLoginData(res.data);
+                            }
+                        });
                 }
+            })
+            .catch((err) => {
+                console.log(err)
             })
     }
 
@@ -196,7 +223,9 @@ function App() {
 
     const handleSignOut = () => {
         localStorage.removeItem('jwt');
+        setRequestSuccessful(false);
     }
+
 
     return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -210,13 +239,13 @@ function App() {
                             cards={cards} 
                             onCardLike={handleCardLike}
                             onCardDelete={handleCardDelete}
-                            signOut={handleSignOut}
+                            onSignOut={handleSignOut}
                             loginData={loginData.email} />
             <Route path="/sign-up">
                 <Register onRegister={handleRegister} onInfoTooltip={onInfoTooltip}/>
             </Route>
             <Route path="/sign-in">
-                <Login handleLogin={handleLogin} onInfoTooltip={onInfoTooltip}/>
+                <Login onLogin={handleLogin} />
             </Route>
             <Route>
                 {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
@@ -235,7 +264,8 @@ function App() {
         <ImagePopup card={selectedCard}
                     onClose={closeAllPopups} />
         <InfoTooltip    isOpen={isInfoTooltipOpen} 
-                        onClose={closeAllPopups} />
+                        onClose={closeInfoTooltip}
+                        isRequestSuccessful={isRequestSuccessful} />
     </div>
     </CurrentUserContext.Provider>
   );

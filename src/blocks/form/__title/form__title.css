@@ -4,3 +4,9 @@
     line-height: 1.2;
     margin: 0 auto 50px;
 }
+
+@media (max-width: 480px) {
+    .form__title  {
+        margin-bottom: 40px;
+    }
+}

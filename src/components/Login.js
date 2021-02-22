@@ -1,14 +1,11 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import Header from '../components/Header.js';
 
-function Login({ handleLogin }) {
+function Login({ onLogin }) {
     const [data, setData] = React.useState({
         email: '',
         password: '',
     });
-
-    const history = useHistory();
 
     function handleChangeData(e) {
         const {name, value} = e.target
@@ -20,8 +17,7 @@ function Login({ handleLogin }) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        handleLogin(data)
-        .then(() => history.push('/'))
+        onLogin(data)
     }
 
     return (
